@@ -29,8 +29,8 @@ Run examples:
   python full_benchmark_suite.py --phase winners --protocol cv --winners-file results/full_suite/grid_heldout.csv
   python full_benchmark_suite.py --phase baseline --protocol both --preprocessing lemmatization --features hybrid
 """
-import argparse, json, os, time, threading, warnings
-import numpy as np, pandas as pd, psutil
+import argparse, json, os, time, threading, warnings, tempfile
+import numpy as np, pandas as pd, psutil, joblib
 from sklearn.base import clone
 from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
 from sklearn.linear_model import LogisticRegression
@@ -137,6 +137,36 @@ def evaluate_once(X_train, y_train, X_test, y_test, clf_factory, prep, feat, cla
     mp, mr, mf1, _ = precision_recall_fscore_support(y_test, y_pred, labels=class_labels, average="macro", zero_division=0)
     wp, wr, wf1, _ = precision_recall_fscore_support(y_test, y_pred, labels=class_labels, average="weighted", zero_division=0)
 
+    # Specificity: per-class one-vs-rest TN/(TN+FP), macro-averaged across
+    # class_labels. For binary this reduces to the single negative-class
+    # specificity; for six-class it is the mean one-vs-rest specificity.
+    cm = confusion_matrix(y_test, y_pred, labels=class_labels)
+    total = cm.sum()
+    specificities = []
+    for i in range(len(class_labels)):
+        tp = cm[i, i]
+        fn = cm[i, :].sum() - tp
+        fp = cm[:, i].sum() - tp
+        tn = total - tp - fn - fp
+        specificities.append(tn / (tn + fp) if (tn + fp) else 0.0)
+    specificity_macro = float(np.mean(specificities))
+
+    # Classifier-only latency: time the already-extracted-feature predict
+    # step separately from the full pipeline (feature-extraction + predict).
+    X_test_features = pipe.named_steps["features"].transform(X_test)
+    classifier_step = pipe.named_steps["classifier"]
+    n_clf = min(latency_samples, X_test_features.shape[0])
+    for i in range(min(5, n_clf)):
+        classifier_step.predict(X_test_features[i])
+    clf_lat = []
+    for i in range(n_clf):
+        s = time.perf_counter()
+        classifier_step.predict(X_test_features[i])
+        clf_lat.append((time.perf_counter() - s) * 1000.0)
+    clf_lat = np.asarray(clf_lat)
+
+    # End-to-end latency: full pipeline (preprocessing + feature extraction
+    # + predict) on raw text, one message at a time.
     n_lat = min(latency_samples, len(X_test))
     sample = list(X_test)[:n_lat] if not hasattr(X_test, "iloc") else X_test.iloc[:n_lat].tolist()
     for t in sample[:5]:
@@ -148,11 +178,22 @@ def evaluate_once(X_train, y_train, X_test, y_test, clf_factory, prep, feat, cla
         lat.append((time.perf_counter() - s) * 1000.0)
     lat = np.asarray(lat)
 
+    # Model size on disk (joblib-serialized, compressed, matching the
+    # project's established convention from earlier benchmark scripts).
+    with tempfile.NamedTemporaryFile(suffix=".joblib", delete=False) as tf:
+        model_path = tf.name
+    joblib.dump(pipe, model_path, compress=3)
+    model_mb = mb(os.path.getsize(model_path))
+    os.remove(model_path)
+
     return {
         "accuracy": acc, "macro_precision": mp, "macro_recall": mr, "macro_f1": mf1,
         "weighted_precision": wp, "weighted_recall": wr, "weighted_f1": wf1,
+        "specificity_macro": specificity_macro,
         "fit_time_seconds": fit_s, "fit_peak_rss_mb": mb(fit_sampler.peak),
         "e2e_mean_latency_ms": float(np.mean(lat)), "e2e_p95_latency_ms": float(np.percentile(lat, 95)),
+        "classifier_mean_latency_ms": float(np.mean(clf_lat)), "classifier_p95_latency_ms": float(np.percentile(clf_lat, 95)),
+        "model_file_mb": model_mb,
     }
 
 
