@@ -5,18 +5,21 @@
 
 Scope: to stay fast, this grid tests **2 preprocessing methods** (`none`, `lemmatization`) × **3 feature sets** (`word-only TF-IDF`, `char-only TF-IDF`, `hybrid word+char TF-IDF`) = 6 combos, on **RF, LR, NB, KNN only** (their already-tuned hyperparameters held fixed) — **SVM and GB are excluded** from this grid; each combo costs minutes for them and their hyperparameters are already fixed at E2+lemmatization. Held-out split only (CV skipped — known leakage-inflated).
 
-### Best combo per (task, classifier)
+### Best combo per (task, classifier) — with latency
 
-| Task | Classifier | Best Preprocessing | Best Feature Set | Accuracy | Macro-F1 |
-|---|---|---|---|---|---|
-| binary | KNN | lemmatization | **char_only** | 0.9909 | 0.9798 |
-| binary | LR | none | **char_only** (tied with hybrid/word) | 0.9803 | 0.9580 |
-| binary | NB | lemmatization | **char_only** | 0.9813 | 0.9600 |
-| binary | RF | none | **char_only** | 0.9809 | 0.9580 |
-| six_class | KNN | lemmatization | **char_only** | 0.9799 | 0.9022 |
-| six_class | LR | none | **char_only** | 0.9758 | 0.8926 |
-| six_class | NB | lemmatization | **char_only** | 0.9714 | 0.8792 |
-| **six_class** | **RF** | **lemmatization** | **hybrid** | 0.9785 | **0.9122** |
+| Task | Classifier | Best Preprocessing | Best Feature Set | Accuracy | Macro-F1 | E2E Latency mean(ms) | E2E Latency p95(ms) |
+|---|---|---|---|---|---|---|---|
+| binary | KNN | lemmatization | char_only | 0.9909 | 0.9798 | 11.41 | 11.83 |
+| binary | LR | none | char_only (tied with hybrid/word) | 0.9803 | 0.9580 | 0.70 | 1.25 |
+| binary | NB | lemmatization | char_only | 0.9813 | 0.9600 | 0.38 | 0.42 |
+| binary | RF | none | char_only | 0.9809 | 0.9580 | 0.69 | 0.76 |
+| six_class | KNN | lemmatization | char_only | 0.9799 | 0.9022 | 11.20 | 11.62 |
+| six_class | LR | none | char_only | 0.9758 | 0.8926 | 0.61 | 1.17 |
+| six_class | NB | lemmatization | char_only | 0.9714 | 0.8792 | 0.42 | 0.52 |
+| **six_class** | **RF** | **lemmatization** | **hybrid** | 0.9785 | **0.9122** | **1.27** | 3.00 |
+
+**Latency reinforces the accuracy finding**: char-only is not just more accurate for LR/NB/RF-binary, it is also faster than hybrid (fewer TF-IDF dimensions, no word+char concatenation overhead) -- e.g. binary RF drops from ~0.96ms (hybrid, main Table 3) to 0.69ms (char-only). KNN remains the clear latency outlier (11-12ms) regardless of feature set, since its cost is dominated by the O(n) distance search against the full training set, not by feature dimensionality. RF six-class's hybrid choice costs a modest extra ~0.6ms versus the simpler char-only options used elsewhere -- a small latency premium for its +2-point F1 edge, consistent with the mobile-deployment tradeoff already established in the main report.
+
 
 ### Key finding: char-only TF-IDF beats hybrid word+char for 7 of 8 (classifier, task) pairs
 
