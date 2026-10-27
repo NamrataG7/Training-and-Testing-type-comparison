@@ -1,4 +1,0 @@
-C,penalty,class_weight,max_iter,random_state,val_macro_f1,val_accuracy,fit_time_seconds,error
-0.1,l2,balanced,2000,42,1.0,1.0,4.3456551250000075,
-1.0,l2,balanced,2000,42,1.0,1.0,5.067104333000003,
-10.0,l2,balanced,2000,42,1.0,1.0,3.5293768329999864,

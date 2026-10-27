@@ -1,8 +1,0 @@
-{
-  "task": "six_class",
-  "classifier": "NB",
-  "best_hyperparams": {
-    "alpha": 0.1
-  },
-  "validation_macro_f1": 0.9976189571538939
-}
