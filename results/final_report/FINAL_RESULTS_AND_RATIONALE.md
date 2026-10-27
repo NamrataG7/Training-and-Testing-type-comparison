@@ -26,10 +26,10 @@ All classifiers tuned via validation-split hyperparameter search (test set touch
 | KNN | 0.9981 | 0.9869 ± 0.0076 | 3.78 | 15.07 | 20.57 | 15.93 | 24.79 |
 | LR | 0.9980 | 0.9856 ± 0.0071 | 18.54 | 0.89 | 1.56 | 0.10 | 0.54 |
 | **RF** | 0.9975 | 0.9837 ± 0.0053 | 4.92 | 1.69 | 2.85 | 0.51 | 0.27 |
-| GB | *see note below* | | | | | | |
+| GB | *not calculated — excluded, see note* | | | | | | |
 | NB | 0.9924 | 0.9582 ± 0.0121 | 3.89 | 0.85 | 1.44 | 0.11 | 0.43 |
 
-> **GB six-class CV row**: GradientBoosting on 6 classes builds ~100 estimators × 6 class-ensembles per fit (multinomial deviance), run 5× for CV — this is the slowest cell in the entire study (>60min wall time for one classifier). Held-out GB six-class result (Table 4) already shows GB macro-F1 = 0.8970, below RF's 0.9122 — consistent with the CV ranking pattern (RF ≥ GB on six-class in every other table), so GB does not change the final decision even once its CV number lands.
+> **GB six-class CV — deliberately not run.** GradientBoosting on 6 classes builds ~100 estimators × 6 class-ensembles per fit (multinomial deviance); one fit alone took ~410s in the held-out run, and 5-fold CV would require 5 such fits (~35-60+ min wall time) for this single cell. This was started and then stopped partway as a deliberate cost/benefit call, not reported as a completed result. Held-out GB six-class (Table 4, real data) already shows GB macro-F1 = 0.8970, below RF's 0.9122 — consistent with GB trailing RF on every other comparable table — so this gap does not affect the final RF decision. SVM, by contrast, *is* fully calculated above (52.07s fit, real 5-fold result) — it is slower than RF/LR/NB/KNN but not prohibitively so, and was not excluded.
 
 ## TABLE 3 — Held-out Test Set: Binary (risk_label), tuned configs — *trustworthy evaluation*
 
