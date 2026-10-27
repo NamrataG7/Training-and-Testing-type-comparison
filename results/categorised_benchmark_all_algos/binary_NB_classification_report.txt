@@ -1,0 +1,18 @@
+Task: binary
+Classifier: NB
+Dataset rows: 20122
+Train rows: 15091
+Test rows: 5031
+
+               precision    recall  f1-score   support
+
+     Non-risk     1.0000    0.9777    0.9887      4398
+Risk detected     0.8659    1.0000    0.9282       633
+
+     accuracy                         0.9805      5031
+    macro avg     0.9330    0.9889    0.9584      5031
+ weighted avg     0.9831    0.9805    0.9811      5031
+
+Confusion matrix (rows=true, columns=predicted; order follows class list):
+[[4300   98]
+ [   0  633]]

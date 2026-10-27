@@ -1,0 +1,11 @@
+{
+  "task": "binary",
+  "classifier": "GB",
+  "best_hyperparams": {
+    "n_estimators": 50,
+    "learning_rate": 0.1,
+    "max_depth": 3,
+    "random_state": 42
+  },
+  "validation_macro_f1": 0.999248218971228
+}

@@ -1,0 +1,10 @@
+{
+  "task": "binary",
+  "classifier": "SVM",
+  "best_hyperparams": {
+    "kernel": "linear",
+    "C": 10.0,
+    "class_weight": "balanced"
+  },
+  "validation_macro_f1": 1.0
+}

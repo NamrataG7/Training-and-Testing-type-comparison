@@ -1,0 +1,4 @@
+kernel,C,class_weight,val_macro_f1,val_accuracy,fit_time_seconds,error
+linear,0.1,balanced,1.0,1.0,47.23287404200005,
+linear,1.0,balanced,1.0,1.0,33.140805833,
+linear,10.0,balanced,1.0,1.0,32.893202832999975,

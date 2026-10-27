@@ -1,0 +1,2 @@
+Rows,Unique_Texts,Rows_In_Duplicate_Clusters,Exact_Duplicate_Excess,Author_Metadata_Available,Thread_Metadata_Available,Time_Metadata_Available,Language_Metadata_Available,Author_Columns,Thread_Columns,Time_Columns,Language_Columns
+20114,20114,0,0,False,False,False,False,,,,

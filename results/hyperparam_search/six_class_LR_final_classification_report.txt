@@ -1,0 +1,27 @@
+Task: six_class
+Classifier: LR
+Best hyperparams: {'C': 10.0, 'penalty': 'l2', 'class_weight': 'balanced', 'max_iter': 2000, 'random_state': 42}
+Validation macro-F1: 1.0000
+Train rows: 15091
+Test rows: 5031
+
+                precision    recall  f1-score   support
+
+      Non-risk     1.0000    0.9807    0.9902      4398
+    Harassment     1.0000    0.9202    0.9584       238
+       Threats     0.9242    0.8971    0.9104       136
+   Hate speech     0.9700    0.9151    0.9417       106
+Sexual content     1.0000    0.9512    0.9750        82
+Self-harm risk     0.3757    1.0000    0.5462        71
+
+      accuracy                         0.9740      5031
+     macro avg     0.8783    0.9440    0.8870      5031
+  weighted avg     0.9885    0.9740    0.9790      5031
+
+Confusion matrix (rows=true, columns=predicted; order follows class list):
+[[4313    0   10    3    0   72]
+ [   0  219    0    0    0   19]
+ [   0    0  122    0    0   14]
+ [   0    0    0   97    0    9]
+ [   0    0    0    0   78    4]
+ [   0    0    0    0    0   71]]

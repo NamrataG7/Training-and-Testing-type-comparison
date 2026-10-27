@@ -1,0 +1,79 @@
+Task: six_class
+Classifier: RF_SIXTUNED
+Dataset rows: 20122
+Folds: 5
+
+=== Fold 1 ===
+                precision    recall  f1-score   support
+
+      Non-risk     0.9994    1.0000    0.9997      3518
+    Harassment     0.9895    0.9947    0.9921       190
+       Threats     0.9820    0.9909    0.9864       110
+   Hate speech     1.0000    0.9875    0.9937        80
+Sexual content     1.0000    1.0000    1.0000        67
+Self-harm risk     1.0000    0.9500    0.9744        60
+
+      accuracy                         0.9985      4025
+     macro avg     0.9952    0.9872    0.9911      4025
+  weighted avg     0.9985    0.9985    0.9985      4025
+
+
+=== Fold 2 ===
+                precision    recall  f1-score   support
+
+      Non-risk     0.9991    1.0000    0.9996      3518
+    Harassment     0.9892    0.9632    0.9760       190
+       Threats     0.9561    0.9909    0.9732       110
+   Hate speech     1.0000    0.9875    0.9937        80
+Sexual content     1.0000    0.9851    0.9925        67
+Self-harm risk     0.9833    0.9833    0.9833        60
+
+      accuracy                         0.9973      4025
+     macro avg     0.9880    0.9850    0.9864      4025
+  weighted avg     0.9973    0.9973    0.9973      4025
+
+
+=== Fold 3 ===
+                precision    recall  f1-score   support
+
+      Non-risk     1.0000    1.0000    1.0000      3518
+    Harassment     1.0000    0.9842    0.9920       190
+       Threats     0.9907    0.9636    0.9770       110
+   Hate speech     0.9639    1.0000    0.9816        80
+Sexual content     0.9851    1.0000    0.9925        66
+Self-harm risk     0.9516    0.9833    0.9672        60
+
+      accuracy                         0.9980      4024
+     macro avg     0.9819    0.9885    0.9850      4024
+  weighted avg     0.9981    0.9980    0.9980      4024
+
+
+=== Fold 4 ===
+                precision    recall  f1-score   support
+
+      Non-risk     0.9986    1.0000    0.9993      3518
+    Harassment     0.9892    0.9684    0.9787       190
+       Threats     0.9907    0.9727    0.9817       110
+   Hate speech     0.9615    0.9375    0.9494        80
+Sexual content     0.9846    0.9697    0.9771        66
+Self-harm risk     0.9375    1.0000    0.9677        60
+
+      accuracy                         0.9960      4024
+     macro avg     0.9770    0.9747    0.9756      4024
+  weighted avg     0.9960    0.9960    0.9960      4024
+
+
+=== Fold 5 ===
+                precision    recall  f1-score   support
+
+      Non-risk     1.0000    1.0000    1.0000      3517
+    Harassment     1.0000    0.9737    0.9867       190
+       Threats     0.9908    0.9818    0.9863       110
+   Hate speech     0.9753    0.9875    0.9814        80
+Sexual content     0.9851    0.9851    0.9851        67
+Self-harm risk     0.9077    0.9833    0.9440        60
+
+      accuracy                         0.9975      4024
+     macro avg     0.9765    0.9852    0.9806      4024
+  weighted avg     0.9976    0.9975    0.9975      4024
+

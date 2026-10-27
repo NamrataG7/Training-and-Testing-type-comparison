@@ -1,0 +1,8 @@
+{
+  "task": "binary",
+  "classifier": "NB",
+  "best_hyperparams": {
+    "alpha": 0.1
+  },
+  "validation_macro_f1": 1.0
+}

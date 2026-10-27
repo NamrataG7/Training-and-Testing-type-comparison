@@ -1,0 +1,18 @@
+Task: binary
+Classifier: KNN
+Dataset rows: 20122
+Train rows: 15091
+Test rows: 5031
+
+               precision    recall  f1-score   support
+
+     Non-risk     1.0000    0.9834    0.9916      4398
+Risk detected     0.8966    1.0000    0.9455       633
+
+     accuracy                         0.9855      5031
+    macro avg     0.9483    0.9917    0.9686      5031
+ weighted avg     0.9870    0.9855    0.9858      5031
+
+Confusion matrix (rows=true, columns=predicted; order follows class list):
+[[4325   73]
+ [   0  633]]

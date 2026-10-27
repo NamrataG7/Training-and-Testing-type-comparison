@@ -1,0 +1,7 @@
+true_label,Non-risk,Harassment,Threats,Hate speech,Sexual content,Self-harm risk
+Non-risk,17588,1,0,0,0,0
+Harassment,2,938,1,0,2,7
+Threats,2,4,538,1,0,5
+Hate speech,1,4,2,390,1,2
+Sexual content,0,4,2,0,324,3
+Self-harm risk,0,9,1,4,0,286
